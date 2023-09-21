@@ -1,0 +1,88 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction List</title>
+</head>
+<body>
+    <h1>Transaction List</h1>
+    <ul>
+        {% for transaction in transactions %}
+        <li>
+            {{ transaction.description }} - ${{ transaction.amount }}
+            (<a href="{% url 'edit_transaction' transaction.id %}">Edit</a>
+            / <a href="{% url 'delete_transaction' transaction.id %}">Delete</a>)
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_transaction' %}">Add Transaction</a>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction List</title>
+</head>
+<body>
+    <h1>Transaction List</h1>
+
+    <h2>Income</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            {% if transaction.transaction_type == 'income' %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.description }}</td>
+                <td>${{ transaction.amount }}</td>
+                <td>
+                    <a href="{% url 'edit_transaction' transaction.id %}">Edit</a>
+                    / <a href="{% url 'delete_transaction' transaction.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Expenses</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            {% if transaction.transaction_type == 'expense' %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.description }}</td>
+                <td>${{ transaction.amount }}</td>
+                <td>
+                    <a href="{% url 'edit_transaction' transaction.id %}">Edit</a>
+                    / <a href="{% url 'delete_transaction' transaction.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_transaction' %}">Add Transaction</a>
+</body>
+</html>
